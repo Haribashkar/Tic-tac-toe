@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tic Tac Toe</title>
+<style>
+.board {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-gap: 5px;
+margin-bottom: 10px;
+}
+.board div {
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 48px;
+font-weight: bold;
+cursor: pointer;
+background-color: lightgray;
+color: black;
+height: 100px;
+}
+.board div:hover {
+background-color: gray;
+}
+.message {
+font-size: 24px;
+font-weight: bold;
+margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<div class="message">Tic Tac Toe</div>
+<div class="board">
+<div onclick="makeMove(0, 0)"></div>
+<div onclick="makeMove(0, 1)"></div>
+<div onclick="makeMove(0, 2)"></div>
+<div onclick="makeMove(1, 0)"></div>
+<div onclick="makeMove(1, 1)"></div>
+<div onclick="makeMove(1, 2)"></div>
+<div onclick="makeMove(2, 0)"></div>
+<div onclick="makeMove(2, 1)"></div>
+<div onclick="makeMove(2, 2)"></div>
+</div>
+<script>
+var currentPlayer = "X";
+var board = [["", "", ""], ["", "", ""], ["", "", ""]];
+var gameOver = false;
+function makeMove(row, col) {
+if (!gameOver && board[row][col] === "") {
+board[row][col] = currentPlayer;
+document.getElementsByClassName("board")[0].children[row * 3 + col].textContent =
+currentPlayer;
+checkWinner();
+currentPlayer = currentPlayer === "X" ? "O" : "X";
+}
+}
+function checkWinner() {
+var winningCombos = [
+[[0, 0], [0, 1], [0, 2]],
+[[1, 0], [1, 1], [1, 2]],
+[[2, 0], [2, 1], [2, 2]],
+[[0, 0], [1, 0], [2, 0]],
+[[0, 1], [1, 1], [2, 1]],
+[[0, 2], [1, 2], [2, 2]],
+[[0, 0], [1, 1], [2, 2]],
+[[0, 2], [1, 1], [2, 0]]
+];
+for (var i = 0; i < winningCombos.length; i++) {
+var combo = winningCombos[i];
+var a = combo[0];
+var b = combo[1];
+var c = combo[2];
+if (board[a[0]][a[1]] !== "" &&
+board[a[0]][a[1]] === board[b[0]][b[1]] &&
+board[a[0]][a[1]] === board[c[0]][c[1]]) {
+gameOver = true;
+document.getElementsByClassName("message")[0].textContent = "Player " +
+board[a[0]][a[1]] + " wins!";
+break;
+}
+}
+}
+</script>
+</body>
+</html>
